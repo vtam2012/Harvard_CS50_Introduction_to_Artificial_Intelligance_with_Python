@@ -1,0 +1,2 @@
+# Harvard_CS50_Introduction_to_Artificial_Intelligance_with_Python
+Projects for learning AI in Python
