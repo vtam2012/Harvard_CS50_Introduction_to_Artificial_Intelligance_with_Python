@@ -22,21 +22,29 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    raise NotImplementedError
-
+    next_player = X
+    if next_player == X:
+        return next_player
+    else:
+        next_player = O
+    return next_player
 
 def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    raise NotImplementedError
-
+    possible_actions = set()
+    for row_index, row in enumerate(board):
+        for column_index, object in enumerate(row):
+            if object == None:
+                possible_actions.add((row_index, column_index))
+    return possible_actions
 
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
+    
 
 
 def winner(board):
@@ -57,7 +65,13 @@ def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    raise NotImplementedError
+    winning_player = winner(board)
+    if winning_player == X:
+        return 1
+    elif winning_player == 0:
+        return -1
+    else:
+        return 0
 
 
 def minimax(board):
