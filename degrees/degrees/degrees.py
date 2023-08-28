@@ -92,6 +92,49 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
+    # Initialize Stack with source as the start node
+    start = Node(state=source, parent=None, action=None)
+    frontier = QueueFrontier()
+    frontier.add(start)
+
+    # Initialize empty visited set
+    explored = set()
+
+    while True:
+        #If no possible path, returns None
+        if frontier.empty():
+            return None
+        
+        # remove node from stack
+        node = frontier.remove()
+
+        if node.state == target:
+            result = []
+
+            while node.parent is not None:
+                result.append((node.action, node.state))
+                node = node.parent
+
+            result.reverse()
+            return result
+
+        explored.add(node.state)
+
+        for action, state in neighbors_for_person(node.state):
+            if not frontier.contains_state(state) and state not in explored:
+                child = Node(state=state, parent=node, action=action)
+                if child.state == target:
+                    result = []
+
+                    while child.parent is not None:
+                        result.append((child.action, child.state))
+                        child = child.parent
+
+                    result.reverse()
+                    return result
+
+                frontier.add(child)
+
     # TODO
     raise NotImplementedError
 
