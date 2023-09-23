@@ -49,12 +49,12 @@ def result(board, action):
         raise Exception("incorrect action")
     else:
         i, j = action
-    
+    new_board = deepcopy(board)
     if board[i][j] != None:
         raise Exception("provided action already taken")
     else:
        new_board[i][j] = player(board)
-    new_board = deepcopy(board)
+   
 
     return new_board
 
@@ -62,14 +62,31 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    for i in range(3):
+        if board[i][0] == board[i][1] == board[i][2] and board[i][0] != EMPTY:
+            return board[i][0]
+        if board[0][i] == board[1][i] == board[2][i] and board[0][i] != EMPTY:
+            return board[0][i]
+     
+    if (board[0][0] == board[1][1] == board[2][2]) or (board[0][2] == board[1][1] == board[2][0]) and board[1][1] != EMPTY:
+            return board[1][1]
 
-
+    return None
+        
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    raise NotImplementedError
+    # if there is a winner return True
+    if winner(board) != None:
+        return True
+    
+    # iterate rows, if there is an empty spot, moves are still possible and no winner is detected
+    for row in board:
+        if EMPTY in row:
+            return False
+    
+    return True
 
 
 def utility(board):
