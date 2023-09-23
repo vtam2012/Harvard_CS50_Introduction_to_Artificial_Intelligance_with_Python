@@ -23,12 +23,15 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    next_player = X
-    if next_player == X:
-        return next_player
+    X_num = 0
+    O_num = 0
+    for row in board:
+        X_num += row.count(X)
+        O_num += row.count(O)
+    if X_num <= O_num:
+        return X
     else:
-        next_player = O
-    return next_player
+        return O
 
 def actions(board):
     """
@@ -106,4 +109,51 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    def max_value(board):
+        """
+        Returns the maximum value of all the possible minimum values.
+        """
+        if terminal(board):
+            return utility(board)
+        minval = -math.inf
+        for action in actions(board):
+            minval = max(minval, min_value(result(board, action)))
+        return minval
+
+    def min_value(board):
+        """
+        Returns the mimium value of all the possible maximum values.
+        """
+        if terminal(board):
+            return utility(board)
+        maxval = math.inf
+        for action in actions(board):
+            maxval = min(maxval, max_value(result(board, action)))
+        return maxval
+
+    if terminal(board):
+        return None
+    
+    current_player = player(board)
+
+    if current_player == X:
+        v = -math.inf
+        for action in actions(board):
+            minval = min_value(result(board, action))
+            if minval > v:
+                v = minval
+                optimal_action = action
+        return optimal_action
+    
+    if current_player == O:
+        v = math.inf
+        for action in actions(board):
+            maxval = max_value(result(board, action))
+            if maxval < v:
+                v = maxval
+                optimal_action = action
+        return optimal_action
+
+
+
+
