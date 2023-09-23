@@ -3,6 +3,7 @@ Tic Tac Toe Player
 """
 
 import math
+from copy import deepcopy
 
 X = "X"
 O = "O"
@@ -18,7 +19,7 @@ def initial_state():
             [EMPTY, EMPTY, EMPTY]]
 
 
-def player(board):
+def player(board): 
     """
     Returns player who has the next turn on a board.
     """
@@ -44,8 +45,18 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
+    if len(action) != 2:
+        raise Exception("incorrect action")
+    else:
+        i, j = action
     
+    if board[i][j] != None:
+        raise Exception("provided action already taken")
+    else:
+       new_board[i][j] = player(board)
+    new_board = deepcopy(board)
 
+    return new_board
 
 def winner(board):
     """
